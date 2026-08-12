@@ -2,102 +2,223 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>🌱 张五一身高记录</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: linear-gradient(135deg, #fff8f0 0%, #ffe8d6 100%);
-    color: #5a4a3a; padding: 20px; min-height: 100vh;
+    color: #5a4a3a;
+    min-height: 100vh;
+    padding: 0;
   }
-  .wrap { max-width: 860px; margin: 0 auto; }
+
+  /* ===== 手机竖屏：全宽布局 ===== */
+  .wrap {
+    max-width: 100%;
+    padding: 0 16px 32px;
+  }
+
+  /* 头部 */
   header {
     background: linear-gradient(135deg, #ff9a56, #ff7b54);
-    color: #fff; border-radius: 20px; padding: 24px 28px;
-    box-shadow: 0 8px 24px rgba(255,123,84,.3); margin-bottom: 20px;
-    position: relative; overflow: hidden;
+    color: #fff;
+    border-radius: 0 0 24px 24px;
+    padding: 28px 20px 40px;
+    box-shadow: 0 6px 20px rgba(255,123,84,.25);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
   }
   header::before {
-    content: "🌻"; position: absolute; right: 20px; top: 10px;
-    font-size: 60px; opacity: .3; transform: rotate(15deg);
+    content: "🌻";
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    font-size: 56px;
+    opacity: .28;
+    transform: rotate(15deg);
+    pointer-events: none;
   }
   header::after {
-    content: "🦒"; position: absolute; right: 80px; bottom: -10px;
-    font-size: 50px; opacity: .25;
+    content: "🦒";
+    position: absolute;
+    right: 72px;
+    bottom: -6px;
+    font-size: 44px;
+    opacity: .22;
+    pointer-events: none;
   }
-  header h1 { font-size: 24px; font-weight: 700; }
+  header h1 { font-size: 22px; font-weight: 700; padding-right: 60px; }
   header h1::before { content: "📏 "; }
-  header p { opacity: .95; margin-top: 8px; font-size: 14px; }
+  header p { opacity: .95; margin-top: 8px; font-size: 13px; line-height: 1.5; }
+
+  /* 卡片 */
   .card {
-    background: #fff; border-radius: 18px; padding: 22px;
-    box-shadow: 0 4px 16px rgba(255,154,86,.1);
-    margin-bottom: 20px; border: 2px solid #fff0e8;
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 4rpx 16rpx rgba(255,154,86,.1);
+    border: 2px solid #fff0e8;
   }
-  .form-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+
+  /* 输入区域 */
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
   .field { display: flex; flex-direction: column; }
-  .field label { font-size: 13px; color: #a08060; margin-bottom: 6px; font-weight: 500; }
-  .field label::before { content: "🌟 "; font-size: 11px; }
-  input, button { font-family: inherit; font-size: 15px; }
-  input[type=date], input[type=number], textarea {
-    padding: 11px 14px; border: 2px solid #ffe8d6; border-radius: 12px;
-    background: #fffbf8; outline: none; transition: all .2s;
-    color: #5a4a3a;
+  .field label {
+    font-size: 13px; color: #a08060; margin-bottom: 6px; font-weight: 500;
   }
-  input:focus, textarea:focus { border-color: #ff9a56; background: #fff; }
-  input[type=number] { width: 140px; }
-  textarea { width: 180px; resize: none; height: 42px; }
+  .field label::before { content: "🌟 "; font-size: 11px; }
+
+  input, button { font-family: inherit; font-size: 16px; }
+  input[type=date], input[type=number], input[type=text] {
+    padding: 13px 14px;
+    border: 2px solid #ffe8d6;
+    border-radius: 12px;
+    background: #fffbf8;
+    outline: none;
+    transition: border .2s;
+    color: #5a4a3a;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  input:focus { border-color: #ff9a56; background: #fff; }
+  input::placeholder { color: #c4b0a0; }
+
+  /* 按钮 */
   .btn {
     background: linear-gradient(135deg, #ff9a56, #ff7b54);
     color: #fff; border: none; border-radius: 12px;
-    padding: 12px 26px; cursor: pointer; font-weight: 600;
-    transition: all .2s; box-shadow: 0 4px 12px rgba(255,123,84,.3);
+    padding: 14px 20px; cursor: pointer; font-weight: 600;
+    font-size: 16px; width: 100%;
+    box-shadow: 0 4px 12px rgba(255,123,84,.3);
+    min-height: 48px;
   }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255,123,84,.4); }
   .btn::before { content: "✨ "; }
+  .btn:active { transform: scale(.98); }
+
+  .toolbar { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
   .btn.ghost {
     background: #fff5f0; color: #ff7b54; border: 2px solid #ffd4c4;
     box-shadow: none;
+    font-size: 15px; min-height: 44px;
   }
-  .btn.ghost:hover { background: #ffe8d6; }
   .btn.ghost::before { content: "📦 "; }
   #clearBtn::before { content: "🗑️ "; }
-  .stats { display: flex; gap: 16px; flex-wrap: wrap; }
+  #clearBtn.ghost::before { content: "🗑️ "; }
+
+  input[type=file] { display: none; }
+
+  /* 统计卡片 */
+  .stats { display: flex; flex-direction: column; gap: 12px; }
   .stat {
-    flex: 1; min-width: 130px; background: linear-gradient(135deg, #fff8f0, #ffe8d6);
-    border-radius: 14px; padding: 18px; text-align: center;
-    border: 2px solid #ffd4c4; position: relative;
+    background: linear-gradient(135deg, #fff8f0, #ffe8d6);
+    border-radius: 14px; padding: 16px 18px;
+    border: 2px solid #ffd4c4;
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 60px;
   }
-  .stat::before {
-    content: "🎈"; position: absolute; top: -8px; right: 10px;
-    font-size: 20px;
+  .stat-left { display: flex; align-items: center; gap: 10px; }
+  .stat-icon { font-size: 22px; }
+  .stat:nth-child(1) .stat-icon::before { content: "🎈"; }
+  .stat:nth-child(2) .stat-icon::before { content: "📊"; }
+  .stat:nth-child(3) .stat-icon::before { content: "🚀"; }
+  .stat .num { font-size: 24px; font-weight: 700; color: #ff7b54; }
+  .stat .lab { font-size: 13px; color: #a08060; margin-left: 6px; }
+  .growth-up { color: #27ae60 !important; }
+  .growth-up::before { content: "📈 "; font-size: 14px; }
+
+  /* 图表区 */
+  canvas {
+    width: 100% !important;
+    height: 260px !important;
+    display: block;
+    border-radius: 12px;
   }
-  .stat:nth-child(2)::before { content: "📊"; }
-  .stat:nth-child(3)::before { content: "🚀"; }
-  .stat .num { font-size: 28px; font-weight: 700; color: #ff7b54; }
-  .stat .lab { font-size: 13px; color: #a08060; margin-top: 6px; }
-  table { width: 100%; border-collapse: collapse; margin-top: 6px; }
-  th, td { padding: 12px 10px; text-align: left; font-size: 15px; border-bottom: 2px solid #fff0e8; }
-  th { color: #c4a080; font-weight: 600; font-size: 13px; }
+
+  h2 { font-size: 17px; margin-bottom: 14px; color: #6b5344; }
+  h2::before { content: "🌈 "; }
+
+  /* 表格 */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; margin-top: 4px; min-width: 400px; }
+  th, td {
+    padding: 12px 10px; text-align: left; font-size: 14px;
+    border-bottom: 2px solid #fff0e8; white-space: nowrap;
+  }
+  th { color: #c4a080; font-weight: 600; font-size: 12px; }
   th::before { content: "🌸 "; font-size: 11px; }
   tbody tr:hover { background: #fffbf8; }
-  tbody tr:nth-child(even) { background: #fffbf8; }
-  .del { color: #ff6b6b; cursor: pointer; font-size: 14px; border: none; background: none; }
+  .del {
+    color: #ff6b6b; cursor: pointer; font-size: 13px;
+    border: none; background: none; padding: 6px 10px;
+    border-radius: 8px;
+  }
+  .del:hover { background: #fff0f0; }
   .del::before { content: "🗑️ "; }
-  .del:hover { color: #ff4757; }
   .age-tag {
     background: linear-gradient(135deg, #ffecd2, #fcb69f);
-    color: #d35400; font-weight: 600; padding: 4px 12px;
-    border-radius: 20px; display: inline-block; font-size: 13px;
+    color: #d35400; font-weight: 600; padding: 4px 10px;
+    border-radius: 20px; display: inline-block; font-size: 12px;
   }
-  canvas { width: 100%; height: 340px; display: block; }
-  .empty { text-align: center; color: #c4b0a0; padding: 40px; font-size: 15px; }
-  .empty::before { content: "🌱 "; font-size: 30px; display: block; margin-bottom: 10px; }
-  .toolbar { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
-  h2 { font-size: 18px; margin-bottom: 16px; color: #6b5344; }
-  h2::before { content: "🌈 "; }
-  .growth-up { color: #27ae60; }
-  .growth-up::before { content: "📈 "; }
+
+  .empty {
+    text-align: center; color: #c4b0a0; padding: 36px 0;
+    font-size: 14px;
+  }
+  .empty::before { content: "🌱 "; font-size: 28px; display: block; margin-bottom: 10px; }
+
+  /* ===== 平板横屏 / 桌面：宽松横向布局 ===== */
+  @media (min-width: 768px) {
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px 40px; }
+
+    header {
+      border-radius: 24px;
+      padding: 32px 36px 44px;
+      margin-bottom: 24px;
+    }
+    header::before { right: 28px; top: 14px; font-size: 72px; }
+    header::after { right: 110px; bottom: -8px; font-size: 58px; }
+    header h1 { font-size: 26px; padding-right: 80px; }
+    header p { font-size: 14px; }
+
+    .card { border-radius: 22px; padding: 24px; margin-bottom: 22px; }
+
+    /* 表单横向排列 */
+    .form-row {
+      flex-direction: row;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .field { flex: 1; min-width: 140px; }
+    .btn { width: auto; min-width: 140px; font-size: 15px; }
+    .toolbar { flex-direction: row; flex-wrap: wrap; margin-top: 14px; }
+    .btn.ghost { flex: 1; min-width: 100px; font-size: 14px; min-height: 42px; }
+
+    /* 统计横向3列 */
+    .stats { flex-direction: row; gap: 14px; }
+    .stat { flex-direction: column; text-align: center; padding: 20px 16px; }
+    .stat-left { flex-direction: column; gap: 4px; }
+    .stat .lab { margin-left: 0; margin-top: 4px; }
+
+    canvas { height: 340px !important; }
+
+    h2 { font-size: 18px; margin-bottom: 16px; }
+    th, td { padding: 13px 12px; font-size: 15px; }
+  }
+
+  /* ===== 大屏桌面：内容区更宽 ===== */
+  @media (min-width: 1100px) {
+    .wrap { max-width: 1100px; }
+    .field { min-width: 160px; }
+    header h1 { font-size: 28px; }
+  }
 </style>
 </head>
 <body>
@@ -107,6 +228,7 @@
     <p>🎂 生日：2018-05-25 ｜ 🎉 年龄自动计算 ｜ 💾 数据保存在本机浏览器</p>
   </header>
 
+  <!-- 输入卡片 -->
   <div class="card">
     <div class="form-row">
       <div class="field">
@@ -126,36 +248,41 @@
     <div class="toolbar">
       <button class="btn ghost" id="expBtn">导出数据</button>
       <button class="btn ghost" id="impBtn">导入数据</button>
-      <input type="file" id="impFile" accept="application/json" style="display:none">
+      <input type="file" id="impFile" accept="application/json">
       <button class="btn ghost" id="clearBtn">清空全部</button>
     </div>
   </div>
 
+  <!-- 统计卡片 -->
   <div class="card">
     <div class="stats" id="stats"></div>
   </div>
 
+  <!-- 曲线图 -->
   <div class="card">
     <h2>身高成长曲线</h2>
     <canvas id="chart"></canvas>
     <div class="empty" id="chartEmpty">还没有记录呢，添加第一条就开始画曲线啦～</div>
   </div>
 
+  <!-- 记录明细 -->
   <div class="card">
     <h2>记录明细</h2>
-    <table>
-      <thead>
-        <tr><th>日期</th><th>年龄</th><th>身高(cm)</th><th>备注</th><th></th></tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>日期</th><th>年龄</th><th>身高(cm)</th><th>备注</th><th></th></tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
     <div class="empty" id="tableEmpty">暂无数据</div>
   </div>
 </div>
 
 <script>
-const BIRTHDAY = new Date(2018, 4, 25); // 2018-05-25
-const KEY = 'zwx_heights_v1';
+const BIRTHDAY = new Date(2018, 4, 25);
+const KEY = 'zwy_heights_v2';
 
 function load() {
   try { return JSON.parse(localStorage.getItem(KEY)) || []; }
@@ -206,11 +333,11 @@ function render() {
     const growth = (latest.height - first.height).toFixed(1);
     const growthText = records.length > 1 ? `+${growth}` : '—';
     stats.innerHTML =
-      `<div class="stat"><div class="num">${Number(latest.height).toFixed(1)}</div><div class="lab">最新身高 cm</div></div>` +
-      `<div class="stat"><div class="num">${records.length}</div><div class="lab">记录次数</div></div>` +
-      `<div class="stat"><div class="num ${growth > 0 ? 'growth-up' : ''}">${growthText}</div><div class="lab">累计增长 cm</div></div>`;
+      `<div class="stat"><div class="stat-left"><span class="stat-icon"></span><span class="lab">最新身高</span></div><span class="num">${Number(latest.height).toFixed(1)} <span style="font-size:13px;color:#a08060">cm</span></span></div>` +
+      `<div class="stat"><div class="stat-left"><span class="stat-icon"></span><span class="lab">记录次数</span></div><span class="num">${records.length}</span></div>` +
+      `<div class="stat"><div class="stat-left"><span class="stat-icon"></span><span class="lab">累计增长</span></div><span class="num ${growth > 0 ? 'growth-up' : ''}">${growthText} <span style="font-size:13px;color:#a08060">cm</span></span></div>`;
   } else {
-    stats.innerHTML = '<div class="empty">添加记录后显示统计</div>';
+    stats.innerHTML = '';
   }
 
   drawChart();
@@ -221,7 +348,8 @@ function drawChart() {
   const empty = document.getElementById('chartEmpty');
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  const W = canvas.clientWidth, H = 340;
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
   canvas.width = W * dpr; canvas.height = H * dpr;
   ctx.setTransform(dpr,0,0,dpr,0,0);
   ctx.clearRect(0,0,W,H);
@@ -229,7 +357,7 @@ function drawChart() {
   if (records.length === 0) { empty.style.display = 'block'; return; }
   empty.style.display = 'none';
 
-  const padL = 52, padR = 24, padT = 24, padB = 48;
+  const padL = 48, padR = 20, padT = 20, padB = 44;
   const plotW = W - padL - padR, plotH = H - padT - padB;
   const hs = records.map(r => r.height);
   let minH = Math.min(...hs), maxH = Math.max(...hs);
@@ -239,7 +367,6 @@ function drawChart() {
   const xAt = i => n === 1 ? padL + plotW/2 : padL + plotW * i/(n-1);
   const yAt = h => padT + plotH * (1 - (h - minH)/(maxH - minH));
 
-  // grid + y labels
   ctx.strokeStyle = '#ffe8d6'; ctx.lineWidth = 1;
   ctx.fillStyle = '#c4a080'; ctx.font = '12px sans-serif';
   ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
@@ -251,7 +378,6 @@ function drawChart() {
     ctx.fillText(val.toFixed(0), padL-8, y);
   }
 
-  // area fill
   const grad = ctx.createLinearGradient(0, padT, 0, H-padB);
   grad.addColorStop(0, 'rgba(255,154,86,0.3)');
   grad.addColorStop(1, 'rgba(255,154,86,0.05)');
@@ -265,7 +391,6 @@ function drawChart() {
   ctx.lineTo(xAt(0), H-padB);
   ctx.closePath(); ctx.fill();
 
-  // line
   ctx.strokeStyle = '#ff7b54'; ctx.lineWidth = 3; ctx.lineCap = 'round';
   ctx.beginPath();
   records.forEach((r,i) => {
@@ -274,30 +399,23 @@ function drawChart() {
   });
   ctx.stroke();
 
-  // points + labels
   ctx.textAlign = 'center';
   records.forEach((r,i) => {
     const x = xAt(i), y = yAt(r.height);
-    // glow
     ctx.fillStyle = 'rgba(255,123,84,0.3)';
     ctx.beginPath(); ctx.arc(x, y, 10, 0, Math.PI*2); ctx.fill();
-    // point
     ctx.fillStyle = '#ff7b54';
     ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI*2); ctx.fill();
     ctx.fillStyle = '#fff';
     ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI*2); ctx.fill();
-    // height label
     ctx.fillStyle = '#5a4a3a'; ctx.font = 'bold 12px sans-serif';
     ctx.fillText(Number(r.height).toFixed(1), x, y-12);
-    // date label
     ctx.fillStyle = '#a08060'; ctx.font = '11px sans-serif';
     const d = new Date(r.date);
-    const lbl = `${d.getMonth()+1}/${d.getDate()}`;
-    ctx.fillText(lbl, x, padT + plotH + 20);
+    ctx.fillText(`${d.getMonth()+1}/${d.getDate()}`, x, padT + plotH + 20);
   });
 }
 
-// events
 document.getElementById('addBtn').addEventListener('click', () => {
   const date = document.getElementById('date').value;
   const h = parseFloat(document.getElementById('height').value);
@@ -344,7 +462,6 @@ document.getElementById('clearBtn').addEventListener('click', () => {
   }
 });
 
-// init
 document.getElementById('date').value = fmtDate(new Date().toISOString());
 render();
 </script>
